@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MenuItem, CartItem } from '../types';
-import { Utensils, Coffee, GlassWater, Cookie, Flame, Plus, Minus, Trash2, ArrowLeft, Clock, MapPin, Zap } from 'lucide-react';
+import { Utensils, Coffee, GlassWater, Cookie, Flame, Plus, Minus, Trash2, ArrowLeft, Clock, MapPin, Zap, ShoppingBag } from 'lucide-react';
 
 interface OrderPageProps {
   items: MenuItem[];
@@ -14,6 +14,7 @@ interface OrderPageProps {
   onClearCart: () => void;
   onSelectItemForDetail: (item: MenuItem) => void;
   onCheckout: (deliveryType: 'pickup' | 'delivery') => void;
+  onOpenCart?: () => void;
 }
 
 export const OrderPage: React.FC<OrderPageProps> = ({
@@ -27,6 +28,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   onClearCart,
   onSelectItemForDetail,
   onCheckout,
+  onOpenCart,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [deliveryType, setDeliveryType] = useState<'pickup' | 'delivery'>('pickup');
@@ -57,10 +59,10 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#fbf9f5] pt-6 pb-20">
+    <div className="min-h-screen bg-[#fbf9f5] pt-4 sm:pt-6 pb-32 lg:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb / Back Link */}
-        <div className="mb-4">
+        <div className="mb-3 sm:mb-4">
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-stone-500 hover:text-[#d96528] transition-colors"
@@ -70,30 +72,30 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           </Link>
         </div>
 
-        {/* Page Header with Branch Selector matching reference image */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-[#eee9de]">
+        {/* Page Header with Branch Selector */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 pb-6 sm:pb-8 border-b border-[#eee9de]">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-bold text-emerald-800 mb-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Ordering Live • 24/7 Kitchen Active</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight font-outfit">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-stone-900 tracking-tight font-outfit">
               Order Online
             </h1>
-            <p className="mt-2 text-sm sm:text-base text-stone-600">
+            <p className="mt-1 sm:mt-2 text-xs sm:text-base text-stone-600">
               Your favorite food, just a few clicks away.
             </p>
           </div>
 
-          {/* Select Branch Switcher matching reference */}
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 bg-white p-3 rounded-2xl border border-[#eee9de] shadow-xs">
-            <span className="text-xs font-bold text-stone-500 font-outfit uppercase tracking-wider">
-              Select Branch
+          {/* Branch Switcher Card - Fully Responsive for Mobile */}
+          <div className="w-full md:w-auto bg-white p-2.5 sm:p-3 rounded-2xl border border-[#eee9de] shadow-xs flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+            <span className="text-[11px] sm:text-xs font-bold text-stone-500 font-outfit uppercase tracking-wider block">
+              Select Branch:
             </span>
-            <div className="inline-flex bg-[#ede7dc] p-1 rounded-full">
+            <div className="grid grid-cols-2 w-full sm:w-auto bg-[#ede7dc] p-1 rounded-full text-center">
               <button
                 onClick={() => setBranch('asaripallam')}
-                className={`px-4 sm:px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
+                className={`px-3 sm:px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer truncate ${
                   branch === 'asaripallam'
                     ? 'bg-[#d96528] text-white shadow-sm'
                     : 'text-stone-700 hover:text-stone-900'
@@ -103,7 +105,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               </button>
               <button
                 onClick={() => setBranch('rajakkamangalam')}
-                className={`px-4 sm:px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
+                className={`px-3 sm:px-5 py-1.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer truncate ${
                   branch === 'rajakkamangalam'
                     ? 'bg-[#d96528] text-white shadow-sm'
                     : 'text-stone-700 hover:text-stone-900'
@@ -115,10 +117,26 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           </div>
         </div>
 
-        {/* 3-Column Interactive Ordering Layout */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Mobile & Tablet Category Horizontal Scroll Bar (visible only on screens < lg) */}
-          <div className="lg:hidden col-span-12 -mx-4 px-4 overflow-x-auto pb-2 flex gap-2 scrollbar-none">
+        {/* Mobile Active Branch Info Strip */}
+        <div className="lg:hidden mt-3 p-3 rounded-xl bg-white border border-[#eee9de] flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-[#d96528] shrink-0" />
+            <div>
+              <span className="font-bold text-stone-900 capitalize">7 Stone Cafe ({branch})</span>
+              <p className="text-[11px] text-stone-500 truncate max-w-[200px] xs:max-w-[280px]">
+                {branch === 'asaripallam' ? 'Near White Rose Nagar, Asaripallam Road' : 'Chotachel Road, Ganapathipuram'}
+              </p>
+            </div>
+          </div>
+          <span className="shrink-0 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+            <Clock className="w-3 h-3" />
+            24 Hours
+          </span>
+        </div>
+
+        {/* Sticky Mobile Category Horizontal Scroll Bar (visible only on screens < lg) */}
+        <div className="lg:hidden sticky top-14 sm:top-16 z-30 bg-[#fbf9f5]/95 backdrop-blur-md pt-3 pb-3 -mx-4 px-4 border-b border-[#eee9de] shadow-xs">
+          <div className="flex gap-2 overflow-x-auto scrollbar-none scroll-smooth">
             {categories.map((cat) => {
               const Icon = cat.icon;
               const isActive = selectedCategory === cat.id;
@@ -130,22 +148,25 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                  className={`shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#d96528] text-white shadow-md shadow-[#d96528]/25'
-                      : 'bg-white text-stone-700 border border-[#eee9de]'
+                      ? 'bg-[#d96528] text-white shadow-md shadow-[#d96528]/25 scale-[1.02]'
+                      : 'bg-white text-stone-700 border border-[#eee9de] active:bg-stone-100'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
                   <span>{cat.label}</span>
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded ${isActive ? 'bg-white/25 text-white' : 'bg-stone-100 text-stone-500'}`}>
+                  <span className={`text-[10px] px-1.5 py-0.2 rounded font-semibold ${isActive ? 'bg-white/25 text-white' : 'bg-stone-100 text-stone-500'}`}>
                     {count}
                   </span>
                 </button>
               );
             })}
           </div>
+        </div>
 
+        {/* 3-Column Interactive Ordering Layout */}
+        <div className="mt-4 sm:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           {/* Left Column: Categories Sidebar for Desktop (visible only on lg+) */}
           <div className="hidden lg:block lg:col-span-3 space-y-2 sticky top-28">
             <span className="text-xs font-bold uppercase tracking-wider text-stone-400 block px-2 mb-2 font-outfit">
@@ -183,7 +204,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               );
             })}
 
-            {/* Branch Highlight Info Box */}
+            {/* Branch Highlight Info Box for Desktop */}
             <div className="mt-6 p-4 rounded-2xl bg-white border border-[#eee9de] text-xs space-y-2">
               <span className="font-bold text-stone-800 uppercase tracking-wider text-[10px] block font-outfit">
                 Selected Pickup / Delivery Hub
@@ -204,84 +225,91 @@ export const OrderPage: React.FC<OrderPageProps> = ({
             </div>
           </div>
 
-          {/* Middle Column: Food Items Grid (5 cols) */}
+          {/* Middle Column: Food Items Grid (5 cols on lg) */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-extrabold text-stone-900 font-outfit">
+            <div className="flex items-center justify-between px-1">
+              <h2 className="text-lg sm:text-xl font-extrabold text-stone-900 font-outfit">
                 {categories.find((c) => c.id === selectedCategory)?.label}
               </h2>
               <span className="text-xs text-stone-500 font-medium">
-                Showing {filteredItems.length} items
+                {filteredItems.length} items
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Responsive Items Layout: Horizontal row cards on mobile, 2-col grid on sm+ */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {filteredItems.map((item) => {
                 const cartInstance = getItemCartInstance(item.id);
 
                 return (
                   <div
                     key={item.id}
-                    className="bg-white rounded-xl p-3 border border-[#eee9de] shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:border-[#d96528]/40 transition-all flex flex-col justify-between"
+                    className="bg-white rounded-2xl p-3 border border-[#eee9de] shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:border-[#d96528]/40 transition-all flex flex-row sm:flex-col justify-between gap-3 items-center sm:items-stretch"
                   >
-                    <div>
-                      {/* Image frame */}
-                      <div
-                        onClick={() => onSelectItemForDetail(item)}
-                        className="aspect-[4/3] rounded-lg overflow-hidden bg-stone-100 mb-3 cursor-pointer group relative"
-                      >
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                        {item.isSignature && (
-                          <span className="absolute top-2 left-2 bg-[#d96528] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-xs">
-                            Must Try
-                          </span>
-                        )}
+                    {/* Item Details (Left on mobile, Top on desktop) */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-between h-full w-full">
+                      <div>
+                        <div className="flex items-center gap-1.5 mb-1">
+                          {item.isSignature && (
+                            <span className="bg-[#d96528] text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded shadow-xs uppercase tracking-wider">
+                              Must Try
+                            </span>
+                          )}
+                        </div>
+
+                        <h3
+                          onClick={() => onSelectItemForDetail(item)}
+                          className="font-bold text-sm sm:text-base text-stone-900 line-clamp-2 hover:text-[#d96528] cursor-pointer font-outfit leading-snug"
+                        >
+                          {item.name}
+                        </h3>
+                        <p className="text-sm font-extrabold text-[#d96528] font-outfit mt-1">
+                          ₹ {item.price}
+                        </p>
                       </div>
 
-                      {/* Info */}
-                      <h3
-                        onClick={() => onSelectItemForDetail(item)}
-                        className="font-bold text-sm text-stone-900 line-clamp-1 hover:text-[#d96528] cursor-pointer font-outfit"
-                      >
-                        {item.name}
-                      </h3>
-                      <p className="text-xs text-stone-500 font-medium mt-0.5 font-outfit">
-                        ₹ {item.price}
-                      </p>
+                      {/* Action Button: Stepper or Add to Cart */}
+                      <div className="mt-3">
+                        {cartInstance ? (
+                          <div className="inline-flex sm:flex items-center justify-between bg-[#fbf9f5] border border-[#d96528]/40 rounded-xl p-1 w-full max-w-[130px] sm:max-w-none">
+                            <button
+                              onClick={() => onUpdateQuantity(cartInstance.id, -1)}
+                              className="w-8 h-8 rounded-lg bg-white hover:bg-stone-100 text-stone-800 flex items-center justify-center font-bold text-sm shadow-xs transition-colors cursor-pointer active:scale-95"
+                            >
+                              <Minus className="w-3.5 h-3.5" />
+                            </button>
+                            <span className="text-xs font-black text-stone-900 font-outfit px-2">
+                              {cartInstance.quantity}
+                            </span>
+                            <button
+                              onClick={() => onUpdateQuantity(cartInstance.id, 1)}
+                              className="w-8 h-8 rounded-lg bg-[#d96528] hover:bg-[#c45419] text-white flex items-center justify-center font-bold text-sm shadow-xs transition-colors cursor-pointer active:scale-95"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => onAddToCart(item)}
+                            className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs hover:shadow active:scale-98 cursor-pointer flex items-center justify-center gap-1.5"
+                          >
+                            <Plus className="w-4 h-4" />
+                            <span>Add</span>
+                          </button>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Action Button: Stepper or Add to Cart */}
-                    <div className="mt-3">
-                      {cartInstance ? (
-                        <div className="flex items-center justify-between bg-[#fbf9f5] border border-[#d96528]/40 rounded-lg p-1">
-                          <button
-                            onClick={() => onUpdateQuantity(cartInstance.id, -1)}
-                            className="w-7 h-7 rounded bg-white hover:bg-stone-100 text-stone-800 flex items-center justify-center font-bold text-sm shadow-xs transition-colors cursor-pointer"
-                          >
-                            <Minus className="w-3.5 h-3.5" />
-                          </button>
-                          <span className="text-xs font-black text-stone-900 font-outfit px-2">
-                            {cartInstance.quantity}
-                          </span>
-                          <button
-                            onClick={() => onUpdateQuantity(cartInstance.id, 1)}
-                            className="w-7 h-7 rounded bg-[#d96528] hover:bg-[#c45419] text-white flex items-center justify-center font-bold text-sm shadow-xs transition-colors cursor-pointer"
-                          >
-                            <Plus className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => onAddToCart(item)}
-                          className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-1.5 px-3 rounded-lg text-xs font-bold transition-all shadow-xs hover:shadow cursor-pointer"
-                        >
-                          Add to Cart
-                        </button>
-                      )}
+                    {/* Image Thumbnail (Right on mobile, Top on desktop) */}
+                    <div
+                      onClick={() => onSelectItemForDetail(item)}
+                      className="w-24 h-24 sm:w-full sm:h-36 rounded-xl overflow-hidden bg-stone-100 shrink-0 cursor-pointer group relative shadow-xs"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
                     </div>
                   </div>
                 );
@@ -289,7 +317,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
             </div>
           </div>
 
-          {/* Right Column: "Your Cart" Box matching reference image (4 cols) */}
+          {/* Right Column: "Your Cart" Box (4 cols on lg) */}
           <div className="lg:col-span-4 bg-white rounded-2xl p-5 border border-[#eee9de] shadow-[0_4px_25px_rgba(0,0,0,0.04)] sticky top-28">
             <div className="flex items-center justify-between pb-4 border-b border-stone-100">
               <div className="flex items-center gap-2">
@@ -391,7 +419,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                 </span>
               </div>
 
-              {/* Delivery / Pickup Radio Selector matching reference */}
+              {/* Delivery / Pickup Radio Selector */}
               <div className="pt-2">
                 <span className="text-xs font-bold text-stone-700 block mb-2 font-outfit">
                   Delivery / Pickup
@@ -442,7 +470,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               Place Order {cart.length > 0 && `(₹ ${grandTotal})`}
             </button>
 
-            {/* Free pickup note matching reference */}
+            {/* Free pickup note */}
             <div className="mt-3 flex items-center justify-center gap-1.5 text-stone-500 text-[11px] font-medium">
               <Zap className="w-3.5 h-3.5 text-[#d96528]" />
               <span>Free pickup available at both branches</span>
@@ -450,24 +478,43 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           </div>
         </div>
 
-        {/* Floating Mobile & Tablet Cart Bar (Visible only on screens < lg when cart has items) */}
+        {/* Floating Mobile & Tablet Cart Bar */}
         {cart.length > 0 && (
-          <div className="lg:hidden fixed bottom-4 left-4 right-4 z-40 bg-[#d96528] text-white p-3.5 rounded-2xl shadow-[0_10px_35px_rgba(217,101,40,0.45)] flex items-center justify-between animate-fadeIn">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center font-black text-sm font-outfit">
+          <div className="lg:hidden fixed bottom-4 left-3 right-3 z-40 bg-[#d96528] text-white p-3 rounded-2xl shadow-[0_10px_35px_rgba(217,101,40,0.45)] flex items-center justify-between backdrop-blur-md animate-fadeIn">
+            <div
+              onClick={() => onOpenCart?.()}
+              className="flex items-center gap-2.5 cursor-pointer"
+            >
+              <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center font-black text-xs font-outfit shrink-0">
                 {cart.reduce((s, i) => s + i.quantity, 0)}
               </div>
-              <div>
-                <p className="text-[10px] uppercase font-bold text-white/80 font-outfit">Your Order</p>
-                <p className="text-base font-black font-outfit">₹ {grandTotal}</p>
+              <div className="min-w-0">
+                <p className="text-[10px] uppercase font-bold text-white/80 font-outfit tracking-wide flex items-center gap-1">
+                  <span>Your Order</span>
+                  <ShoppingBag className="w-3 h-3 text-white/90" />
+                </p>
+                <p className="text-sm font-black font-outfit truncate">
+                  ₹ {grandTotal}
+                </p>
               </div>
             </div>
-            <button
-              onClick={() => onCheckout(deliveryType)}
-              className="bg-white hover:bg-stone-50 text-[#d96528] px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider shadow-sm active:scale-95 cursor-pointer transition-all"
-            >
-              Place Order →
-            </button>
+
+            <div className="flex items-center gap-2">
+              {onOpenCart && (
+                <button
+                  onClick={onOpenCart}
+                  className="bg-white/20 hover:bg-white/30 text-white px-3 py-2 rounded-xl font-bold text-xs active:scale-95 cursor-pointer transition-all"
+                >
+                  View Cart
+                </button>
+              )}
+              <button
+                onClick={() => onCheckout(deliveryType)}
+                className="bg-white hover:bg-stone-50 text-[#d96528] px-4 py-2 rounded-xl font-black text-xs uppercase tracking-wider shadow-sm active:scale-95 cursor-pointer transition-all"
+              >
+                Checkout →
+              </button>
+            </div>
           </div>
         )}
       </div>

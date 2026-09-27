@@ -132,6 +132,7 @@ const AppContent: React.FC = () => {
                 onClearCart={handleClearCart}
                 onSelectItemForDetail={(item) => setSelectedItemForDetail(item)}
                 onCheckout={handleStartCheckout}
+                onOpenCart={() => setIsCartOpen(true)}
               />
             }
           />
