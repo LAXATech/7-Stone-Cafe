@@ -108,7 +108,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
             <button
               onClick={handleFinish}
-              className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-md shadow-[#d96528]/30 cursor-pointer"
+              className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-sm cursor-pointer"
             >
               Done & Back to Home
             </button>
@@ -203,7 +203,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
               <button
                 type="submit"
-                className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-md shadow-[#d96528]/30 cursor-pointer"
+                className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-sm cursor-pointer"
               >
                 Confirm & Pay on Delivery / Pickup
               </button>

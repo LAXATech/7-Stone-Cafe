@@ -61,7 +61,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
             <button
               onClick={() => navigate('/order')}
-              className="bg-[#d96528] hover:bg-[#c45419] text-white px-8 py-4 rounded-2xl font-black text-sm tracking-wide transition-all shadow-xl shadow-[#d96528]/30 hover:scale-105 flex items-center gap-2.5 shrink-0 cursor-pointer"
+              className="bg-[#d96528] hover:bg-[#c45419] text-white px-8 py-4 rounded-2xl font-black text-sm tracking-wide transition-all shadow-md flex items-center gap-2.5 shrink-0 cursor-pointer"
             >
               <ShoppingBag className="w-5 h-5" />
               <span>Order Online Now</span>

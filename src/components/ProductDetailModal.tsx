@@ -173,7 +173,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
         <div className="p-4 sm:p-5 bg-white border-t border-stone-100">
           <button
             onClick={handleAdd}
-            className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-3.5 rounded-xl font-black text-sm tracking-wide transition-all shadow-md shadow-[#d96528]/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+            className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-3.5 rounded-xl font-black text-sm tracking-wide transition-all shadow-sm cursor-pointer"
           >
             Add to Cart (₹ {calculatedTotal})
           </button>

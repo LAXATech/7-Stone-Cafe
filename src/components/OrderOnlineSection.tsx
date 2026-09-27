@@ -113,7 +113,7 @@ export const OrderOnlineSection: React.FC<OrderOnlineSectionProps> = ({
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all duration-200 text-left cursor-pointer ${
                     isActive
-                      ? 'bg-[#d96528] text-white shadow-md shadow-[#d96528]/25'
+                      ? 'bg-[#d96528] text-white shadow-sm'
                       : 'bg-white hover:bg-[#f5efe4] text-stone-700 border border-[#eee9de]'
                   }`}
                 >
@@ -338,7 +338,7 @@ export const OrderOnlineSection: React.FC<OrderOnlineSectionProps> = ({
               disabled={cart.length === 0}
               className={`mt-5 w-full py-3.5 rounded-xl font-black text-sm tracking-wide transition-all duration-200 cursor-pointer ${
                 cart.length > 0
-                  ? 'bg-[#d96528] hover:bg-[#c45419] text-white shadow-md shadow-[#d96528]/30 hover:scale-[1.01] active:scale-[0.99]'
+                  ? 'bg-[#d96528] hover:bg-[#c45419] text-white shadow-sm'
                   : 'bg-stone-200 text-stone-400 cursor-not-allowed'
               }`}
             >

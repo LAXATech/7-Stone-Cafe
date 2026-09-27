@@ -181,7 +181,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-[#d96528] text-white shadow-md shadow-[#d96528]/25 scale-[1.02]'
+                      ? 'bg-[#d96528] text-white shadow-sm'
                       : 'bg-white text-stone-700 border border-[#eee9de] active:bg-stone-100'
                   }`}
                 >
@@ -216,7 +216,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`w-full flex items-center justify-between px-4 py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all duration-200 text-left cursor-pointer ${
                     isActive
-                      ? 'bg-[#d96528] text-white shadow-md shadow-[#d96528]/25 scale-[1.01]'
+                      ? 'bg-[#d96528] text-white shadow-sm'
                       : 'bg-white hover:bg-[#f5efe4] text-stone-700 border border-[#eee9de]'
                   }`}
                 >
@@ -491,7 +491,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               disabled={cart.length === 0}
               className={`mt-5 w-full py-3.5 rounded-xl font-black text-sm tracking-wide transition-all duration-200 cursor-pointer ${
                 cart.length > 0
-                  ? 'bg-[#d96528] hover:bg-[#c45419] text-white shadow-md shadow-[#d96528]/30 hover:scale-[1.01] active:scale-[0.99]'
+                  ? 'bg-[#d96528] hover:bg-[#c45419] text-white shadow-sm'
                   : 'bg-stone-200 text-stone-400 cursor-not-allowed'
               }`}
             >
@@ -508,37 +508,37 @@ export const OrderPage: React.FC<OrderPageProps> = ({
 
         {/* Floating Mobile & Tablet Cart Bar */}
         {cart.length > 0 && (
-          <div className="lg:hidden fixed bottom-4 left-3 right-3 z-40 bg-[#d96528] text-white p-3 rounded-2xl shadow-[0_10px_35px_rgba(217,101,40,0.45)] flex items-center justify-between backdrop-blur-md animate-fadeIn">
+          <div className="lg:hidden fixed bottom-4 left-3 right-3 sm:left-1/2 sm:-translate-x-1/2 sm:w-full sm:max-w-md z-40 bg-[#d96528] text-white p-2.5 sm:p-3 rounded-2xl shadow-xl flex items-center justify-between backdrop-blur-md animate-fadeIn">
             <div
               onClick={() => onOpenCart?.()}
-              className="flex items-center gap-2.5 cursor-pointer flex-1 mr-2"
+              className="flex items-center gap-2 sm:gap-2.5 cursor-pointer min-w-0 flex-1 mr-2"
             >
-              <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center font-black text-xs font-outfit shrink-0">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/20 flex items-center justify-center font-black text-xs font-outfit shrink-0">
                 {cart.reduce((s, i) => s + i.quantity, 0)}
               </div>
-              <div className="min-w-0">
-                <p className="text-[10px] uppercase font-bold text-white/80 font-outfit tracking-wide flex items-center gap-1">
-                  <span>{deliveryType === 'delivery' ? 'Delivery Order' : 'Pickup Order'}</span>
-                  <ShoppingBag className="w-3 h-3 text-white/90" />
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] uppercase font-bold text-white/80 font-outfit tracking-wide flex items-center gap-1 truncate">
+                  <span>{deliveryType === 'delivery' ? 'Delivery' : 'Pickup'}<span className="hidden min-[380px]:inline"> Order</span></span>
+                  <ShoppingBag className="w-3 h-3 text-white/90 shrink-0" />
                 </p>
-                <p className="text-sm font-black font-outfit truncate">
+                <p className="text-xs sm:text-sm font-black font-outfit truncate">
                   ₹ {grandTotal}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               {onOpenCart && (
                 <button
                   onClick={onOpenCart}
-                  className="bg-white/20 hover:bg-white/30 text-white px-3 py-2 rounded-xl font-bold text-xs active:scale-95 cursor-pointer transition-all"
+                  className="bg-white/20 hover:bg-white/30 text-white px-2.5 sm:px-3 py-2 rounded-xl font-bold text-[11px] sm:text-xs active:scale-95 cursor-pointer transition-all whitespace-nowrap"
                 >
-                  View Cart
+                  <span className="hidden min-[340px]:inline">View </span>Cart
                 </button>
               )}
               <button
                 onClick={() => onCheckout(deliveryType)}
-                className="bg-white hover:bg-stone-50 text-[#d96528] px-4 py-2 rounded-xl font-black text-xs uppercase tracking-wider shadow-sm active:scale-95 cursor-pointer transition-all"
+                className="bg-white hover:bg-stone-50 text-[#d96528] px-3 sm:px-4 py-2 rounded-xl font-black text-[11px] sm:text-xs uppercase tracking-wider shadow-sm active:scale-95 cursor-pointer transition-all whitespace-nowrap"
               >
                 Checkout →
               </button>

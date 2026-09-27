@@ -54,7 +54,7 @@ export const MustTryFavorites: React.FC<MustTryFavoritesProps> = ({
                 onClick={() => setActiveTab(cat.id as any)}
                 className={`shrink-0 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-[#d96528] text-white shadow-md shadow-[#d96528]/25 scale-105'
+                    ? 'bg-[#d96528] text-white shadow-sm'
                     : 'bg-[#f0ece1] text-stone-700 hover:bg-[#e6e0d2]'
                 }`}
               >
@@ -70,7 +70,7 @@ export const MustTryFavorites: React.FC<MustTryFavoritesProps> = ({
             <div
               key={item.id}
               onClick={() => onSelectItem(item)}
-              className="group bg-white rounded-2xl p-3 sm:p-4 border border-[#eee9de] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(217,101,40,0.12)] hover:border-[#d96528]/40 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+              className="group bg-white rounded-2xl p-3 sm:p-4 border border-[#eee9de] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-lg hover:border-stone-300 transition-all duration-300 cursor-pointer flex flex-col justify-between"
             >
               {/* Image Frame */}
               <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-stone-100 mb-4">
@@ -107,7 +107,7 @@ export const MustTryFavorites: React.FC<MustTryFavoritesProps> = ({
                   <button
                     onClick={(e) => onQuickAdd(item, e)}
                     aria-label={`Add ${item.name} to cart`}
-                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#d96528] hover:bg-[#c45419] text-white flex items-center justify-center transition-all duration-200 shadow-md shadow-[#d96528]/30 group-hover:scale-110 active:scale-95 cursor-pointer"
+                    className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#d96528] hover:bg-[#c45419] text-white flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer"
                   >
                     <Plus className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
                   </button>

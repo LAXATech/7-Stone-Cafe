@@ -50,7 +50,7 @@ export const Hero: React.FC<HeroProps> = ({ onOrderOnline, onExploreMenu }) => {
             <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <button
                 onClick={onOrderOnline}
-                className="w-full sm:w-auto justify-center bg-[#d96528] hover:bg-[#c45419] text-white px-7 py-3 sm:py-3.5 rounded-lg font-bold text-sm sm:text-base tracking-wide transition-all duration-200 shadow-lg shadow-[#d96528]/30 hover:shadow-xl hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto justify-center bg-[#d96528] hover:bg-[#c45419] text-white px-7 py-3 sm:py-3.5 rounded-lg font-bold text-sm sm:text-base tracking-wide transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2 cursor-pointer"
               >
                 Order Online
                 <ArrowRight className="w-4 h-4" />

@@ -193,7 +193,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   onClose();
                   onCheckout(deliveryType);
                 }}
-                className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-3.5 rounded-xl font-black text-sm tracking-wide transition-all shadow-md shadow-[#d96528]/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-3.5 rounded-xl font-black text-sm tracking-wide transition-all shadow-sm cursor-pointer"
               >
                 Place Order (₹ {grandTotal})
               </button>
