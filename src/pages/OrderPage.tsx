@@ -87,7 +87,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
             </p>
           </div>
 
-          {/* Branch Switcher Card - Fully Responsive for Mobile */}
+          {/* Select Branch Switcher matching reference */}
           <div className="w-full md:w-auto bg-white p-2.5 sm:p-3 rounded-2xl border border-[#eee9de] shadow-xs flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
             <span className="text-[11px] sm:text-xs font-bold text-stone-500 font-outfit uppercase tracking-wider block">
               Select Branch:
@@ -117,21 +117,52 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           </div>
         </div>
 
-        {/* Mobile Active Branch Info Strip */}
-        <div className="lg:hidden mt-3 p-3 rounded-xl bg-white border border-[#eee9de] flex items-center justify-between text-xs">
-          <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-[#d96528] shrink-0" />
-            <div>
-              <span className="font-bold text-stone-900 capitalize">7 Stone Cafe ({branch})</span>
-              <p className="text-[11px] text-stone-500 truncate max-w-[200px] xs:max-w-[280px]">
-                {branch === 'asaripallam' ? 'Near White Rose Nagar, Asaripallam Road' : 'Chotachel Road, Ganapathipuram'}
-              </p>
-            </div>
+        {/* Mobile Delivery / Pickup and Branch Strip (visible only on screens < lg) */}
+        <div className="lg:hidden mt-3 space-y-2">
+          {/* Delivery / Pickup Toggle for mobile */}
+          <div className="bg-white p-1 rounded-xl border border-[#eee9de] grid grid-cols-2 gap-1 shadow-xs">
+            <button
+              onClick={() => setDeliveryType('pickup')}
+              className={`py-2 px-3 rounded-lg text-xs font-bold transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
+                deliveryType === 'pickup'
+                  ? 'bg-[#d96528] text-white shadow-xs'
+                  : 'text-stone-600 hover:text-stone-900'
+              }`}
+            >
+              <span>🥡 Pickup</span>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${deliveryType === 'pickup' ? 'bg-white/20 text-white' : 'bg-stone-100 text-stone-500'}`}>Free</span>
+            </button>
+            <button
+              onClick={() => setDeliveryType('delivery')}
+              className={`py-2 px-3 rounded-lg text-xs font-bold transition-all text-center cursor-pointer flex items-center justify-center gap-1.5 ${
+                deliveryType === 'delivery'
+                  ? 'bg-[#d96528] text-white shadow-xs'
+                  : 'text-stone-600 hover:text-stone-900'
+              }`}
+            >
+              <span>🛵 Delivery</span>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${deliveryType === 'delivery' ? 'bg-white/20 text-white' : 'bg-stone-100 text-stone-500'}`}>+₹30</span>
+            </button>
           </div>
-          <span className="shrink-0 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
-            <Clock className="w-3 h-3" />
-            24 Hours
-          </span>
+
+          {/* Active Branch Info Strip */}
+          <div className="p-2.5 rounded-xl bg-white border border-[#eee9de] flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2 min-w-0">
+              <MapPin className="w-4 h-4 text-[#d96528] shrink-0" />
+              <div className="min-w-0">
+                <span className="font-bold text-stone-900 capitalize block truncate">
+                  7 Stone Cafe • {branch}
+                </span>
+                <p className="text-[11px] text-stone-500 truncate">
+                  {branch === 'asaripallam' ? 'Near White Rose Nagar, Asaripallam Rd' : 'Chotachel Rd, Ganapathipuram'}
+                </p>
+              </div>
+            </div>
+            <span className="shrink-0 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1 ml-2">
+              <Clock className="w-3 h-3" />
+              24/7
+            </span>
+          </div>
         </div>
 
         {/* Sticky Mobile Category Horizontal Scroll Bar (visible only on screens < lg) */}
@@ -226,7 +257,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           </div>
 
           {/* Middle Column: Food Items Grid (5 cols on lg) */}
-          <div className="lg:col-span-5 space-y-4">
+          <div className="col-span-12 lg:col-span-5 space-y-4">
             <div className="flex items-center justify-between px-1">
               <h2 className="text-lg sm:text-xl font-extrabold text-stone-900 font-outfit">
                 {categories.find((c) => c.id === selectedCategory)?.label}
@@ -236,7 +267,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               </span>
             </div>
 
-            {/* Responsive Items Layout: Horizontal row cards on mobile, 2-col grid on sm+ */}
+            {/* Responsive Items Layout: Horizontal row cards on mobile, 2-col vertical cards on sm+ */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {filteredItems.map((item) => {
                 const cartInstance = getItemCartInstance(item.id);
@@ -244,37 +275,46 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                 return (
                   <div
                     key={item.id}
-                    className="bg-white rounded-2xl p-3 border border-[#eee9de] shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:border-[#d96528]/40 transition-all flex flex-row sm:flex-col justify-between gap-3 items-center sm:items-stretch"
+                    className="bg-white rounded-xl p-3 border border-[#eee9de] shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:border-[#d96528]/40 transition-all flex flex-row sm:flex-col justify-between gap-3 sm:gap-0"
                   >
-                    {/* Item Details (Left on mobile, Top on desktop) */}
-                    <div className="flex-1 min-w-0 flex flex-col justify-between h-full w-full">
-                      <div>
-                        <div className="flex items-center gap-1.5 mb-1">
-                          {item.isSignature && (
-                            <span className="bg-[#d96528] text-white text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded shadow-xs uppercase tracking-wider">
-                              Must Try
-                            </span>
-                          )}
-                        </div>
+                    {/* Image frame: Left on mobile, Top on desktop */}
+                    <div
+                      onClick={() => onSelectItemForDetail(item)}
+                      className="w-24 h-24 sm:w-full sm:aspect-[4/3] rounded-lg overflow-hidden bg-stone-100 sm:mb-3 shrink-0 cursor-pointer group relative shadow-xs"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      {item.isSignature && (
+                        <span className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 bg-[#d96528] text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded shadow-xs uppercase tracking-wider">
+                          Must Try
+                        </span>
+                      )}
+                    </div>
 
+                    {/* Info & Action Button */}
+                    <div className="flex-1 min-w-0 flex flex-col justify-between">
+                      <div>
                         <h3
                           onClick={() => onSelectItemForDetail(item)}
-                          className="font-bold text-sm sm:text-base text-stone-900 line-clamp-2 hover:text-[#d96528] cursor-pointer font-outfit leading-snug"
+                          className="font-bold text-sm text-stone-900 line-clamp-2 sm:line-clamp-1 hover:text-[#d96528] cursor-pointer font-outfit"
                         >
                           {item.name}
                         </h3>
-                        <p className="text-sm font-extrabold text-[#d96528] font-outfit mt-1">
+                        <p className="text-xs text-stone-500 font-medium mt-0.5 font-outfit">
                           ₹ {item.price}
                         </p>
                       </div>
 
                       {/* Action Button: Stepper or Add to Cart */}
-                      <div className="mt-3">
+                      <div className="mt-2.5 sm:mt-3">
                         {cartInstance ? (
-                          <div className="inline-flex sm:flex items-center justify-between bg-[#fbf9f5] border border-[#d96528]/40 rounded-xl p-1 w-full max-w-[130px] sm:max-w-none">
+                          <div className="inline-flex sm:flex items-center justify-between bg-[#fbf9f5] border border-[#d96528]/40 rounded-lg p-1 w-full max-w-[120px] sm:max-w-none">
                             <button
                               onClick={() => onUpdateQuantity(cartInstance.id, -1)}
-                              className="w-8 h-8 rounded-lg bg-white hover:bg-stone-100 text-stone-800 flex items-center justify-center font-bold text-sm shadow-xs transition-colors cursor-pointer active:scale-95"
+                              className="w-7 h-7 rounded bg-white hover:bg-stone-100 text-stone-800 flex items-center justify-center font-bold text-sm shadow-xs transition-colors cursor-pointer active:scale-95"
                             >
                               <Minus className="w-3.5 h-3.5" />
                             </button>
@@ -283,7 +323,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                             </span>
                             <button
                               onClick={() => onUpdateQuantity(cartInstance.id, 1)}
-                              className="w-8 h-8 rounded-lg bg-[#d96528] hover:bg-[#c45419] text-white flex items-center justify-center font-bold text-sm shadow-xs transition-colors cursor-pointer active:scale-95"
+                              className="w-7 h-7 rounded bg-[#d96528] hover:bg-[#c45419] text-white flex items-center justify-center font-bold text-sm shadow-xs transition-colors cursor-pointer active:scale-95"
                             >
                               <Plus className="w-3.5 h-3.5" />
                             </button>
@@ -291,25 +331,13 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                         ) : (
                           <button
                             onClick={() => onAddToCart(item)}
-                            className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all shadow-xs hover:shadow active:scale-98 cursor-pointer flex items-center justify-center gap-1.5"
+                            className="w-full bg-[#d96528] hover:bg-[#c45419] text-white py-1.5 px-3 rounded-lg text-xs font-bold transition-all shadow-xs hover:shadow active:scale-98 cursor-pointer flex items-center justify-center gap-1"
                           >
-                            <Plus className="w-4 h-4" />
-                            <span>Add</span>
+                            <Plus className="w-3.5 h-3.5" />
+                            <span>Add to Cart</span>
                           </button>
                         )}
                       </div>
-                    </div>
-
-                    {/* Image Thumbnail (Right on mobile, Top on desktop) */}
-                    <div
-                      onClick={() => onSelectItemForDetail(item)}
-                      className="w-24 h-24 sm:w-full sm:h-36 rounded-xl overflow-hidden bg-stone-100 shrink-0 cursor-pointer group relative shadow-xs"
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
                     </div>
                   </div>
                 );
@@ -317,8 +345,8 @@ export const OrderPage: React.FC<OrderPageProps> = ({
             </div>
           </div>
 
-          {/* Right Column: "Your Cart" Box (4 cols on lg) */}
-          <div className="lg:col-span-4 bg-white rounded-2xl p-5 border border-[#eee9de] shadow-[0_4px_25px_rgba(0,0,0,0.04)] sticky top-28">
+          {/* Right Column: "Your Cart" Box for Desktop (Hidden on mobile < lg) */}
+          <div className="hidden lg:block lg:col-span-4 bg-white rounded-2xl p-5 border border-[#eee9de] shadow-[0_4px_25px_rgba(0,0,0,0.04)] sticky top-28">
             <div className="flex items-center justify-between pb-4 border-b border-stone-100">
               <div className="flex items-center gap-2">
                 <h3 className="text-lg font-black text-stone-900 font-outfit">
@@ -483,14 +511,14 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           <div className="lg:hidden fixed bottom-4 left-3 right-3 z-40 bg-[#d96528] text-white p-3 rounded-2xl shadow-[0_10px_35px_rgba(217,101,40,0.45)] flex items-center justify-between backdrop-blur-md animate-fadeIn">
             <div
               onClick={() => onOpenCart?.()}
-              className="flex items-center gap-2.5 cursor-pointer"
+              className="flex items-center gap-2.5 cursor-pointer flex-1 mr-2"
             >
               <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center font-black text-xs font-outfit shrink-0">
                 {cart.reduce((s, i) => s + i.quantity, 0)}
               </div>
               <div className="min-w-0">
                 <p className="text-[10px] uppercase font-bold text-white/80 font-outfit tracking-wide flex items-center gap-1">
-                  <span>Your Order</span>
+                  <span>{deliveryType === 'delivery' ? 'Delivery Order' : 'Pickup Order'}</span>
                   <ShoppingBag className="w-3 h-3 text-white/90" />
                 </p>
                 <p className="text-sm font-black font-outfit truncate">
@@ -499,7 +527,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               {onOpenCart && (
                 <button
                   onClick={onOpenCart}
